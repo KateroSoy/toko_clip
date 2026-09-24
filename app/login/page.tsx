@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useState } from "react";
 
 export default function LoginPage() {
   const [username, setUsername] = useState("");
@@ -45,7 +45,7 @@ export default function LoginPage() {
               <span>Username</span>
               <input
                 value={username}
-                onChange={(e) => setUsername(e.target.value)}
+                onChange={(e: ChangeEvent<HTMLInputElement>) => setUsername(e.target.value)}
                 autoComplete="username"
                 placeholder="tokoclip001"
                 required
@@ -56,7 +56,7 @@ export default function LoginPage() {
               <input
                 type="password"
                 value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={(e: ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
                 autoComplete="current-password"
                 placeholder="••••••••••••"
                 required

@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent, useEffect, useMemo, useState } from "react";
+import { ChangeEvent, FormEvent, useEffect, useMemo, useState } from "react";
 
 type Clip = {
   title?: string;
@@ -164,7 +164,7 @@ export default function Clipper({ username }: { username: string }) {
             <input
               id="video-url"
               value={url}
-              onChange={(e) => setUrl(e.target.value)}
+              onChange={(e: ChangeEvent<HTMLInputElement>) => setUrl(e.target.value)}
               placeholder="https://youtube.com/watch?v=..."
               inputMode="url"
               autoComplete="off"
@@ -177,7 +177,7 @@ export default function Clipper({ username }: { username: string }) {
             <input
               type="checkbox"
               checked={ownsRights}
-              onChange={(e) => setOwnsRights(e.target.checked)}
+              onChange={(e: ChangeEvent<HTMLInputElement>) => setOwnsRights(e.target.checked)}
             />
             <span>Saya memiliki atau mempunyai izin untuk memproses video ini.</span>
           </label>
