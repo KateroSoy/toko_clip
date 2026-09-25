@@ -26,6 +26,19 @@ function normalizeClipUrl(value?: string) {
   return `https://api.openshorts.app${value.startsWith("/") ? "" : "/"}${value}`;
 }
 
+function getErrorMessage(data: any, fallback: string): string {
+  const obj = data?.error || data?.detail;
+  if (!obj) return fallback;
+  if (typeof obj === "string") return obj;
+  if (typeof obj === "object") {
+    if (obj.minutes_required !== undefined && obj.minutes_remaining !== undefined) {
+      return `Saldo menit tidak cukup. Butuh ${obj.minutes_required} menit, sisa ${obj.minutes_remaining} menit.`;
+    }
+    return obj.error || obj.message || obj.detail || JSON.stringify(obj);
+  }
+  return fallback;
+}
+
 export default function Clipper({ username }: { username: string }) {
   const [url, setUrl] = useState("");
   const [ownsRights, setOwnsRights] = useState(false);
@@ -52,7 +65,7 @@ export default function Clipper({ username }: { username: string }) {
         if (stopped) return;
 
         if (!res.ok) {
-          setMessage(data.error || data.detail || "Gagal mengambil status proses.");
+          setMessage(getErrorMessage(data, "Gagal mengambil status proses."));
           timer = setTimeout(checkStatus, 10000);
           return;
         }
@@ -103,7 +116,7 @@ export default function Clipper({ username }: { username: string }) {
 
       if (!res.ok) {
         setStatus("idle");
-        setMessage(data.error || data.detail || "Gagal memulai proses video.");
+        setMessage(getErrorMessage(data, "Gagal memulai proses video."));
         return;
       }
 
